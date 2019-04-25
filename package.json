@@ -1,0 +1,19 @@
+{
+  "name": "event-transmitter",
+  "version": "1.0.0",
+  "description": "Transmits events to report-server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mmdalix/event-transmitter.git"
+  },
+  "author": "MohamadAli Zk",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mmdalix/event-transmitter/issues"
+  },
+  "homepage": "https://github.com/mmdalix/event-transmitter#readme"
+}
