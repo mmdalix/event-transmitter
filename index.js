@@ -20,7 +20,7 @@ let EventTransmitter = function(project,app_url,username,password){
                 reject(err)
                 return
             }
-            if(res.statusCode == 200){
+            if(res.statusCode == 200 && body.status == true){
                 resolve(body)
             }else{
                 reject(body)
