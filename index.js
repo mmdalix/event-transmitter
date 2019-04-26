@@ -1,6 +1,6 @@
 const request = require("request")
 
-let EventTransmitter = (project,app_url,username,password) => {
+let EventTransmitter = function(project,app_url,username,password){
 
     this.postEvent = (event,params) => new Promise((resolve,reject)=>{
         var request_options = {
