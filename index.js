@@ -21,7 +21,6 @@ let EventTransmitter = function(project,app_url,username,password){
                 return
             }
             if(res.statusCode == 200){
-                body = JSON.parse(body)
                 resolve(body)
             }else{
                 reject(body)
