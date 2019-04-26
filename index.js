@@ -29,3 +29,4 @@ let EventTransmitter = (project,app_url,username,password) => {
         })
     })
 }
+module.exports = EventTransmitter
