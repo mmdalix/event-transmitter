@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/mmdalix/event-transmitter/issues"
   },
-  "homepage": "https://github.com/mmdalix/event-transmitter#readme"
+  "homepage": "https://github.com/mmdalix/event-transmitter#readme",
+  "dependencies": {
+    "request": "^2.88.0"
+  }
 }
