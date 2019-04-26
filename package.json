@@ -1,6 +1,6 @@
 {
   "name": "event-transmitter",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Transmits events to report-server",
   "main": "index.js",
   "scripts": {
