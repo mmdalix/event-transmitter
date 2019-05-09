@@ -1,8 +1,36 @@
 const request = require("request")
+const utils = require('./utils')
+const Queue = require('better-queue')
 
 let EventTransmitter = function(project,app_url,username,password){
+    const MAX_CONCURRENT = 8
+    const MAX_RETRY_ATTEMPTS = 3
+    
+    let queue = new Queue(async (event,cb) => {
+        try{
+            await sendEvent(event)
+            cb()
+        }catch(err){
+            cb(err)
+        }
+    },{
+        concurrent: MAX_CONCURRENT,
+        maxRetries: MAX_RETRY_ATTEMPTS
+    })
 
-    this.postEvent = (event,params) => new Promise((resolve,reject)=>{
+    this.postEvent = (event_name,params,cb) => {
+
+        let event = new Event(event_name,params)
+
+        queue.push(event)
+        .once('failed',()=>{
+            event.missed()
+            cb("missed")
+        })
+        .once('finish',()=>cb())
+    }
+
+    let sendEvent = (event)=>new Promise((resolve,reject) =>{
         var request_options = {
             url: app_url + '/api/postEvent',
             auth: {
@@ -10,9 +38,11 @@ let EventTransmitter = function(project,app_url,username,password){
               password: password
             },
             json: {
-                "project":project,
-                "event":event,
-                "params":params
+                "project": project,
+                "event": event.name,
+                "params": event.params,
+                "token": event.token,
+                "attempts": event.attempts
             }
         }
         request.post(request_options,(err,res,body)=>{
@@ -21,11 +51,23 @@ let EventTransmitter = function(project,app_url,username,password){
                 return
             }
             if(res.statusCode == 200 && body.status == true){
-                resolve(body)
+                resolve()
             }else{
                 reject(body)
             }
         })
     })
+    class Event{
+        constructor(name,params){
+            this.name = name
+            this.params = params || []
+            this.token = utils.randomString(16)
+            this.attempts = 0
+        }
+        missed(){
+            console.error("Event missed")
+            console.error(this)
+        }
+    }
 }
 module.exports = (project,app_url,username,password) => new EventTransmitter(project,app_url,username,password)
