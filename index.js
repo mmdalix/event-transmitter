@@ -51,7 +51,6 @@ let EventTransmitter = function(project,app_url,username,password){
                 reject(err)
                 return
             }
-            console.log(body)
             if(res.statusCode == 200 && body.status == true){
                 resolve()
             }else{
