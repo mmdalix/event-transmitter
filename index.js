@@ -23,8 +23,8 @@ let EventTransmitter = function(project,app_url,username,password){
         let event = new Event(event_name,params)
 
         queue.push(event)
-        .once('failed',()=>{
-            event.missed()
+        .once('failed',(err)=>{
+            event.missed(err)
             cb && cb("missed")
             
         })
@@ -51,6 +51,7 @@ let EventTransmitter = function(project,app_url,username,password){
                 reject(err)
                 return
             }
+            console.log(body)
             if(res.statusCode == 200 && body.status == true){
                 resolve()
             }else{
@@ -65,8 +66,10 @@ let EventTransmitter = function(project,app_url,username,password){
             this.token = utils.randomString(16)
             this.attempts = 0
         }
-        missed(){
+        missed(err){
+
             console.error("Event missed")
+            console.error(err)
             console.error(this)
         }
     }
