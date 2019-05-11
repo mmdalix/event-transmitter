@@ -25,9 +25,10 @@ let EventTransmitter = function(project,app_url,username,password){
         queue.push(event)
         .once('failed',()=>{
             event.missed()
-            cb("missed")
+            cb && cb("missed")
+            
         })
-        .once('finish',()=>cb())
+        .once('finish',()=>{cb && cb()})
     }
 
     let sendEvent = (event)=>new Promise((resolve,reject) =>{
